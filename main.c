@@ -39,7 +39,7 @@ int main(){
         printf("====================================\n");
         printf("====This is PBCT Vending Machine====\n");
         printf(" Barato na may tsansa pang manalo ka\n");
-        printf("          ===============\n\n\n");
+        printf("          ===============\n\n");
         printf("1. Buy Product\n2. View Product\n3. View personal inventory\n");
         printf("4. Play Mystery box game\n");
         printf("\nEnter your choice: ");
@@ -172,7 +172,7 @@ void view_ourstores(int i, Product *products[], int sizes[], int *timailhan){
     for(int k=0; k<sizes[i-1]; k++){
         printf("%d. %s %d %d\n", k+1,products[i-1][k].name, products[i-1][k].price,products[i-1][k].stock);
     }
-    printf("1. Go back to previous menu\n");
+    printf("\n\n1. Go back to previous menu\n");
     printf("2. Go back to main menu\n");
     printf("\nEnter your choice: ");
     scanf("%d", &choice);
@@ -209,17 +209,47 @@ void view_products(Product *products[], int sizes[]){
     }while(choice!=5);
 }
 void calculation(int i, int j, int quantity, Product *products[], int *money,int sizes[]){
-    *money-=products[i-1][j-1].price;
+    int m=*money;
+    if(products[i-1][j-1].stock==0){
+        printf("%s out of stock!\n", products[i-1][j-1].name);
+        return ;
+    }
+    if(quantity>products[i-1][j-1].stock){
+           printf("You can not buy %d %ss because there are only %d %ss left!\n",quantity,products[i-1][j-1].name, products[i-1][j-1].stock, products[i-1][j-1].name);  
+        return;
+    }
+    int total_price=products[i-1][j-1].price*quantity;
     products[i-1][j-1].stock-=quantity;
-    printf("You bought %d %s\n",quantity, products[i-1][j-1].name);
+    if(*money<total_price){
+        if(quantity==1){
+        printf("Not enough money! You only have PHP%d left and %d %s cost %d\n", *money, quantity,products[i-1][j-1].name, total_price);
+        }else if(quantity>1){
+            printf("Not enough money! You only have PHP%d left and %d %ss cost %d\n", *money, quantity,products[i-1][j-1].name, total_price);
+        }
+        return;
+    }
+    printf("-------RECIEPT-------\n");
+    if(quantity==1){
+    printf("\nYou bought %d %s\n\n",quantity, products[i-1][j-1].name);
+    }else if(quantity>1){
+        printf("\nYou bought %d %ss\n\n",quantity, products[i-1][j-1].name);
+    }
+    for(int k=0; k<quantity;k++){
+        printf("%s   PHP %d.00\n",products[i-1][j-1].name, products[i-1][j-1].price);
+    }
+    printf("---------------------\n");
+    printf("Your cash: PHP %d.00", m);
+    printf("\nTotal = %d.00\n", total_price);
+    *money-=total_price;
+    printf("Remaining money= PHP%d.00\n", *money);
     update_money(*money);
     FILE *fp;
      fp = fopen(file_inventory, "a");
     getchar();
-    fprintf(fp, "%s - PHP %d (Quantity: %d)\n",
+    fprintf(fp, "%s - PHP %d (Quantity: %d) Total: %d\n",
             products[i-1][j-1].name,
             products[i-1][j-1].price,
-            quantity);
+            quantity, total_price);
 
     fclose(fp);
     char *files[]={
@@ -242,16 +272,17 @@ void buy_tan(int i, Product *products[], int sizes[], int *timailhan, int *money
     int j, quantity;
      printf("====================================\n");
     printf("---------- %s store -------------\n", files[k]);
-    printf(" lami lami lami lami lami lami kaayo\n\n\n");
+    printf(" lami lami lami lami lami lami kaayo\n\n");
     for(int i=0; i<sizes[k]; i++){
         printf("%d. %s %d %d\n", i+1,products[k][i].name, products[k][i].price,products[k][i].stock);
     }
-    printf("Enter what do you want to buy: ");
+    printf("\nEnter what do you want to buy: ");
     scanf("%d", &j);
+    if(j>=1&&j<=sizes[k]){
     printf("How many %s do you want to buy: ", products[i-1][j-1].name);
     scanf("%d", &quantity);
     calculation(i,j, quantity, products, money, sizes);
-    printf("1. Buy again\n");
+    printf("\n1. Buy again\n");
     printf("2. Go back to previous menu\n");
     printf("3. Go back to main menu\n");
     printf("\nEnter your choice: ");
@@ -264,7 +295,9 @@ void buy_tan(int i, Product *products[], int sizes[], int *timailhan, int *money
     }else{
         printf("Invalid choice!\n");
     }
-
+    }else{
+        printf("Invalid Entry!\n");
+    }
     }while(choice!=2);
 }
 
@@ -273,7 +306,7 @@ void buy_products(Product *products[], int sizes[], int *money){
     do{
     printf("====================================\n");
     printf("--- You are now buying products ---\n");
-    printf("    ----------------------------\n\n\n");
+    printf("    ----------------------------\n\n");
     printf("1. Tan's store\n");
     printf("2. Patricia's store\n");
     printf("3. Nizzah's store\n");
@@ -297,3 +330,4 @@ void update_money(int money){
     fprintf(fp,"%d", money);
     fclose(fp);
 }
+void view

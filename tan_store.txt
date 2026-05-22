@@ -1,5 +1,5 @@
-Coke 35 9
-Water 20 14
+Coke 35 5
+Water 20 13
 Royal 25 10
 Pepsi 30 15
-Sprite 30 15
+Sprite 30 13
