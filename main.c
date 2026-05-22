@@ -17,10 +17,7 @@ typedef struct{
 void check_files();
 void scan_files();
 int mymoney();
-void view_tan(Product *products[], int sizes[], int *timailhan);
-void view_patricia(Product *products[], int sizes[], int *timailhan);
-void view_nizzah(Product *products[], int sizes[], int *timailhan);
-void view_cabarloc(Product *products[], int sizes[], int *timailhan);
+void view_ourstores(int i, Product *products[], int sizes[], int *timailhan);
 void view_products(Product *products[],int sizes[]);
 void calculation(int i, int j, int quantity, Product *products[], int *money, int sizes[]);
 void buy_tan(int i, Product *products[], int sizes[], int *timailhan, int *money);
@@ -162,80 +159,18 @@ int mymoney(){
     fclose(fp);
     return money;
 }
-void view_tan(Product *products[], int sizes[], int *timailhan){
+
+void view_ourstores(int i, Product *products[], int sizes[], int *timailhan){
     int choice;
+    char *files[]={
+        "Tan's","Patricia's","Nizzah's","Cabarloc's"
+    };
     do{
     printf("====================================\n");
-    printf("---------- Tan's store -------------\n");
+    printf("---------- %s store -------------\n",files[i-1]);
     printf(" lami lami lami lami lami lami kaayo\n\n\n");
-    for(int i=0; i<sizes[0]; i++){
-        printf("%d. %s %d %d\n", i+1,products[0][i].name, products[0][i].price,products[0][i].stock);
-    }
-    printf("1. Go back to previous menu\n");
-    printf("2. Go back to main menu\n");
-    printf("\nEnter your choice: ");
-    scanf("%d", &choice);
-    if(choice==2){
-        *timailhan=1;
-    }else if(choice==1){
-        break;
-    }else{
-        printf("Invalid choice!\n");
-    }
-    }while(choice!=1 && choice!=2);
-}
-void view_patricia(Product *products[], int sizes[], int *timailhan){
-    int choice;
-    do{
-    printf("====================================\n");
-    printf("---------- Patricia's store -------------\n");
-    printf(" lami lami lami lami lami lami kaayo\n\n\n");
-    for(int i=0; i<sizes[1]; i++){
-        printf("%d. %s %d %d\n", i+1,products[1][i].name, products[1][i].price,products[1][i].stock);
-    }
-    printf("1. Go back to previous menu\n");
-    printf("2. Go back to main menu\n");
-    printf("\nEnter your choice: ");
-    scanf("%d", &choice);
-    if(choice==2){
-        *timailhan=1;
-    }else if(choice==1){
-        break;
-    }else{
-        printf("Invalid choice!\n");
-    }
-    }while(choice!=1 && choice!=2);
-}
-void view_nizzah(Product *products[], int sizes[], int *timailhan){
-    int choice;
-    do{
-    printf("====================================\n");
-    printf("---------- Patricia's store -------------\n");
-    printf(" lami lami lami lami lami lami kaayo\n\n\n");
-    for(int i=0; i<sizes[2]; i++){
-        printf("%d. %s %d %d\n", i+1,products[2][i].name, products[2][i].price,products[2][i].stock);
-    }
-    printf("1. Go back to previous menu\n");
-    printf("2. Go back to main menu\n");
-    printf("\nEnter your choice: ");
-    scanf("%d", &choice);
-    if(choice==2){
-        *timailhan=1;
-    }else if(choice==1){
-        break;
-    }else{
-        printf("Invalid choice!\n");
-    }
-    }while(choice!=1 && choice!=2);
-}
-void view_cabarloc(Product *products[], int sizes[], int *timailhan){
-    int choice;
-    do{
-    printf("====================================\n");
-    printf("---------- Cabarloc's store -------------\n");
-    printf(" lami lami lami lami lami lami kaayo\n\n\n");
-    for(int i=0; i<sizes[3]; i++){
-        printf("%d. %s %d %d\n", i+1,products[3][i].name, products[3][i].price,products[3][i].stock);
+    for(int k=0; k<sizes[i-1]; k++){
+        printf("%d. %s %d %d\n", k+1,products[i-1][k].name, products[i-1][k].price,products[i-1][k].stock);
     }
     printf("1. Go back to previous menu\n");
     printf("2. Go back to main menu\n");
@@ -263,12 +198,12 @@ void view_products(Product *products[], int sizes[]){
     printf("5. Go back to main menu\n");
     printf("\nEnter your choice: ");
     scanf("%d", &choice);
-    switch(choice){
-        case 1: view_tan(products, sizes, &timailhan);break;
-        case 2: view_patricia(products,sizes,&timailhan);break;
-        case 3: view_nizzah(products, sizes, &timailhan);break;
-        case 4: view_cabarloc(products, sizes, &timailhan);break;
-        default: printf("Invalid Choice!\n");
+    if(choice>=1&&choice<=4){
+        view_ourstores(choice, products, sizes, &timailhan);
+    }else if(choice==5){
+        break;
+    }else{
+        printf("Invalid Entry!\n");
     }
     if(timailhan==1)break;
     }while(choice!=5);
@@ -346,9 +281,15 @@ void buy_products(Product *products[], int sizes[], int *money){
     printf("5. Go back to main menu\n");
     printf("\nEnter your choice: ");
     scanf("%d", &i);
+    if(i>=1 && i<=4){
     buy_tan(i,products,sizes,&timailhan, money);
+    }else if(i==5){
+        break;
+    }else{
+        printf("Invalid Entry!\n");
+    }
     if(timailhan==1)break;
-    }while(choice!=5);
+    }while(i!=5);
 }
 void update_money(int money){
     FILE *fp;
