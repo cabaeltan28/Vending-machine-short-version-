@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
+#include <time.h>
 #define file_tan "tan_store.txt"
 #define file_patricia "patricia_store.txt"
 #define file_nizzah "nizzah_store.txt"
@@ -25,6 +25,7 @@ void buy_products(Product *products[], int sizes[], int *money);
 void update_money(int money);
 void viewInventory(int money);
 void add_money(int *money);
+void game(int *money);
 int main(){
     Product *products[4];
     int sizes[4];
@@ -42,9 +43,9 @@ int main(){
         printf("====This is PBCT Vending Machine====\n");
         printf(" Barato na may tsansa pang manalo ka\n");
         printf("          ===============\n\n");
+        printf("You inserted : PHP%d\n\n", money);
         printf("1. Buy Product\n2. View Product\n3. View personal inventory\n");
         printf("4. Add money\n5. Play Mysterious box game\n");
-        printf("\nYou inserted : PHP%d", money);
         printf("\nEnter your choice: ");
         scanf("%d", &choice);
         switch(choice){
@@ -52,6 +53,7 @@ int main(){
             case 2: view_products(products, sizes);break;
             case 3: viewInventory(money);
             case 4: add_money(&money);
+            case 5: game(&money);
         }
     }while(choice!=0);
     
@@ -387,4 +389,70 @@ void add_money(int *money){
         printf("Invalid Entry!");
     }
     }while(choice!=1);
+}
+void game(int *money){
+    int choice, random;
+    do{
+        printf("====================================\n");
+        printf("========= LUCKY MINI GAME ==========\n");
+        printf(" Guess the correct number (1-5)\n");
+        printf(" Bet Cost: PHP 10.00\n");
+        printf(" Jackpot Reward: PHP 100.00\n");
+        printf("Your pocket money= PHP %d.00\n", *money);
+        printf("====================================\n");
+         if(*money < 20){
+            printf("Not enough money to play!\n");
+            break;
+        }
+        int p, timailhan=0;
+        printf("Do you want to play? : \n");
+        printf("1. Yes\n 2. No\n");
+        scanf("%d", &p);
+        if(p==2)break;
+
+        printf("Enter your lucky number (1-5): ");
+        scanf("%d", &choice);
+
+        if(choice < 1 || choice > 5){
+            printf("Invalid number!\n");
+            continue;
+        }
+        srand(time(NULL));
+        random = rand() % 5 + 1;
+
+        printf("Lucky box is: %d\n", random);
+        *money -= 10;
+        if(choice == random){
+            *money += 100;
+            printf("====================================\n");
+            printf("CONGRATULATIONS!\n");
+            printf("You won PHP 100.00!\n");
+            printf("====================================\n");
+        }else{
+            printf("====================================\n");
+            printf("Sorry bro, you lost!\n");
+            printf("Better luck next time.\n");
+            printf("====================================\n");
+            FILE *fp;
+            fp=fopen(file_inventory, "a");
+            fprintf(fp,"Game lost %d.00", *money);
+            fclose(fp);
+        }
+        do{
+        printf("Your money now become : PHP %d\n", *money);
+        update_money(*money);
+        printf("\n1. Play Again\n");
+        printf("2. Exit Game\n");
+        printf("Enter choice: ");
+        scanf("%d", &choice);
+        if(choice==1){
+            break;
+        }else if(choice==2){
+            timailhan=1;
+            break;
+        }
+        }while(choice==1);
+        if(timailhan==1)break;
+    }while(choice == 1);
+
 }
