@@ -24,6 +24,7 @@ void buy_tan(int i, Product *products[], int sizes[], int *timailhan, int *money
 void buy_products(Product *products[], int sizes[], int *money);
 void update_money(int money);
 void viewInventory(int money);
+void add_money(int *money);
 int main(){
     Product *products[4];
     int sizes[4];
@@ -42,13 +43,15 @@ int main(){
         printf(" Barato na may tsansa pang manalo ka\n");
         printf("          ===============\n\n");
         printf("1. Buy Product\n2. View Product\n3. View personal inventory\n");
-        printf("4. Play Mystery box game\n");
+        printf("4. Add money\n5. Play Mysterious box game\n");
+        printf("\nYou inserted : PHP%d", money);
         printf("\nEnter your choice: ");
         scanf("%d", &choice);
         switch(choice){
             case 1: buy_products(products,sizes, &money);break;
             case 2: view_products(products, sizes);break;
             case 3: viewInventory(money);
+            case 4: add_money(&money);
         }
     }while(choice!=0);
     
@@ -362,5 +365,26 @@ void viewInventory(int money) {
     }
     
     }
-
+}
+void add_money(int *money){
+    
+    int add, choice;
+    printf("\n=============================================\n");
+    printf("You are now adding money to your bank account.\n");
+    printf("\n            ===== SMALL BANK =====\n\n");
+    printf("Your remaining money = PHP %d\n", *money);
+    printf("How much do you want to add: ");
+    scanf("%d", &add);
+    *money=*money+add;
+    printf("Your money become : PHP %d\n", *money);
+    update_money(*money);
+    do{
+    printf("\nTap 1 to go back to main menu: ");
+    scanf("%d", &choice);
+    if(choice==1){
+        break;
+    }else{
+        printf("Invalid Entry!");
+    }
+    }while(choice!=1);
 }
