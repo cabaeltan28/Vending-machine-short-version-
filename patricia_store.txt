@@ -1,5 +1,5 @@
-Oishi 10 10
-Clover 10 11
-Piatos 20 10
-Cracklings 10 15
+Oishi 10 9
+Clover 10 6
+Piatos 20 8
+Cracklings 10 14
 Marty's 10 15
