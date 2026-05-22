@@ -23,6 +23,7 @@ void calculation(int i, int j, int quantity, Product *products[], int *money, in
 void buy_tan(int i, Product *products[], int sizes[], int *timailhan, int *money);
 void buy_products(Product *products[], int sizes[], int *money);
 void update_money(int money);
+void viewInventory(int money);
 int main(){
     Product *products[4];
     int sizes[4];
@@ -47,6 +48,7 @@ int main(){
         switch(choice){
             case 1: buy_products(products,sizes, &money);break;
             case 2: view_products(products, sizes);break;
+            case 3: viewInventory(money);
         }
     }while(choice!=0);
     
@@ -330,4 +332,35 @@ void update_money(int money){
     fprintf(fp,"%d", money);
     fclose(fp);
 }
-void view
+void viewInventory(int money) {
+    while(1) {
+    printf("\n======================================\n");
+    printf("  You are now viewing your inventory.\n");
+    FILE *fp;
+    char line[100];
+
+    fp = fopen(file_inventory, "r");
+
+    printf("\n  ===== STUDENT INVENTORY =====\n\n");
+
+    while(fgets(line, sizeof(line), fp) != NULL) {
+        printf("%s", line);
+    }
+
+    fclose(fp);
+
+    printf("\nRemaining Money: PHP %d", money);
+    
+    int choice;
+    
+   
+    printf("\n==============================\n");
+    printf("Tap 1 to go back to main menu:");
+    scanf("%d", &choice);
+    if(choice == 1) {
+        break;
+    }
+    
+    }
+
+}
