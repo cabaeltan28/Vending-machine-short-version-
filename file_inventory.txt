@@ -1,0 +1,7 @@
+Water - PHP 20 (Quantity: 1)
+Oishi - PHP 10 (Quantity: 1)
+Oishi - PHP 10 (Quantity: 1)
+Oishi - PHP 10 (Quantity: 1)
+Fita - PHP 10 (Quantity: 1)
+Mentos - PHP 2 (Quantity: 1)
+Coke - PHP 35 (Quantity: 1)

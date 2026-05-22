@@ -1,4 +1,4 @@
-Oishi 10 10
+Oishi 10 7
 Clover 10 15
 Piatos 20 10
 Cracklings 10 15
