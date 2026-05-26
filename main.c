@@ -19,8 +19,8 @@ typedef struct{
 void check_files();
 void scan_files(Product *products[], int sizes[]);
 int mymoney();
-void view_ourstores(int i, Product *products[], int sizes[], int *timailhan);
-void view_products(Product *products[],int sizes[]);
+void view_ourstores(int i, Product *products[], int sizes[], int *timailhan, int *money);
+void view_products(Product *products[],int sizes[],int *money);
 void calculation(int i, int j, int quantity, Product *products[], int *money, int sizes[]);
 void buy_tan(int i, Product *products[], int sizes[], int *timailhan, int *money);
 void buy_products(Product *products[], int sizes[], int *money);
@@ -28,9 +28,10 @@ void update_money(int money);
 void viewInventory(int money);
 void add_money(int *money);
 void game(int *money);
+void scan_money(int *money);
 
 int main(){
-
+    
     Product *products[4];
     int sizes[4];
     int money;
@@ -39,16 +40,14 @@ int main(){
     for(int i=0;i<4; i++){
         products[i]=malloc(sizeof(Product)*100);
     }
-
+    check_files();
     money=mymoney();
 
-    check_files();
-
-    scan_files(products, sizes);
 
     do{//main menu nato guys
-
-        printf("\n\n====================================\n");
+        system("clear");
+        scan_files(products, sizes);
+        printf("====================================\n");
         printf("====This is TPNC Vending Machine====\n");
         printf(" Barato na may tsansa pang manalo ka\n");
         printf("          --------------\n\n");
@@ -81,7 +80,7 @@ int main(){
                 break;
 
             case 2:
-                view_products(products, sizes);
+                view_products(products, sizes, &money);
                 break;
 
             case 3:
@@ -249,6 +248,19 @@ void scan_files(Product *products[], int sizes[]){//read all files
         sizes[i]=j;
     }
 }
+void scan_money(int *money){
+    FILE *fp;
+
+    fp = fopen(file_money, "r");
+
+    if(fp == NULL){
+        return;
+    }
+
+    fscanf(fp, "%d", money);
+
+    fclose(fp);
+}
 
 int mymoney(){//our money
 
@@ -265,7 +277,7 @@ int mymoney(){//our money
     return money;
 }
 
-void view_ourstores(int i, Product *products[], int sizes[], int *timailhan){//view stores solution
+void view_ourstores(int i, Product *products[], int sizes[], int *timailhan,int *money){//view stores solution
 
     int choice;
 
@@ -277,8 +289,11 @@ void view_ourstores(int i, Product *products[], int sizes[], int *timailhan){//v
     };
 
     do{
-
-        printf("\n\n====================================\n");
+        system("clear");
+        scan_files(products, sizes);
+        scan_money(money);
+        
+        printf("====================================\n");
 
         printf("---------- %s store -------------\n",files[i-1]);
 
@@ -322,13 +337,15 @@ void view_ourstores(int i, Product *products[], int sizes[], int *timailhan){//v
     }while(choice!=1 && choice!=2);
 }
 
-void view_products(Product *products[], int sizes[]){//view product menu
+void view_products(Product *products[], int sizes[], int *money){//view product menu
 
     int choice, timailhan=0;
 
     do{
-
-        printf("\n\n====================================\n");
+        system("clear");
+        scan_files(products, sizes);
+        scan_money(money);
+        printf("====================================\n");
 
         printf("--- You are now viewing products ---\n\n");
 
@@ -352,7 +369,7 @@ void view_products(Product *products[], int sizes[]){//view product menu
 
         if(choice>=1&&choice<=4){
 
-            view_ourstores(choice, products, sizes, &timailhan);
+            view_ourstores(choice, products, sizes, &timailhan, money);
 
         }else if(choice==5){
 
@@ -371,6 +388,10 @@ void view_products(Product *products[], int sizes[]){//view product menu
 void calculation(int i, int j, int quantity, Product *products[], int *money,int sizes[]){//calculation sa buy and sell
 
     int m=*money;
+    if(quantity<=0){
+        printf("Invalid quantity!Please enter a valid quantity.\n");
+        return;
+    }
 
     if(products[i-1][j-1].stock==0){
 
@@ -439,7 +460,7 @@ void calculation(int i, int j, int quantity, Product *products[], int *money,int
 }
 
 void buy_tan(int i, Product *products[], int sizes[], int *timailhan, int *money){//buy and sells
-
+    scan_money(money);
     int choice=0;
 
     int k=i-1;
@@ -448,10 +469,16 @@ void buy_tan(int i, Product *products[], int sizes[], int *timailhan, int *money
     };
 
     do{
+        system("clear");
 
+        int timailha=0;
+        scan_files(products, sizes);
+        scan_money(money);
         int j, quantity;
+        char input[100];
+        char extra;
 
-        printf("\n\n====================================\n");
+        printf("====================================\n");
         printf("===========   %s's store   ========\n\n", storename[k]);
 
         for(int x=0; x<sizes[k]; x++){
@@ -462,11 +489,28 @@ void buy_tan(int i, Product *products[], int sizes[], int *timailhan, int *money
                 products[k][x].price,
                 products[k][x].stock);
         }
-
+        int x;
+        do{
+            
+        printf("\nTap 1 continue to buy\n");
+        printf("Tap 2 to Exit\n");
+        
+        printf("Tap 1 or 2: ");
+        fgets(input, sizeof(input), stdin);
+sscanf(input, "%d", &x);
+        switch(x){
+            case 1: timailha=1;break;
+            case 2: timailha=2;break;
+            default: printf("Invalid input!\n");
+        }
+        if(timailha==1 || timailha) break;
+        }while (x!=1);
+       
+        
+        if(timailha==2)break;
         printf("\nEnter what do you want to buy(1-5): ");
 
-        char input[100];
-        char extra;
+        
 
         fgets(input, sizeof(input), stdin);
 
@@ -517,8 +561,9 @@ void buy_products(Product *products[], int sizes[], int *money){//buy stores men
     int i, timailhan=0;
 
     do{
-
-        printf("\n\n====================================\n");
+        system("clear");
+        scan_money(money);
+        printf("====================================\n");
 
         printf("--- You are now buying products ---\n\n");
 
@@ -528,6 +573,7 @@ void buy_products(Product *products[], int sizes[], int *money){//buy stores men
         printf("4. Cabarloc's store  (CANDIES)\n");
         printf("5. Go back to main menu\n");
 
+        
         printf("\nEnter your choice: ");
 
         char input[100];
@@ -570,12 +616,12 @@ void update_money(int money){
 }
 
 void viewInventory(int money){//view inventory menu
-
+system("clear");
     FILE *fp;
 
     char line[100];
 
-    printf("\n\n===== INVENTORY =====\n");
+    printf("===== INVENTORY =====\n");
 
     fp = fopen(file_inventory, "r");
 
@@ -604,7 +650,7 @@ void add_money(int *money){
 
     int add;
 
-    printf("\n\n===== ADD MONEY =====\n");
+    printf("===== ADD MONEY =====\n");
 
     printf("Current money: PHP %d\n", *money);
 
@@ -628,8 +674,10 @@ void add_money(int *money){
     printf("\nYour money now is %d.00\n",*money );
     int l;
     do{
+        system("clear");
         printf("Tap 1 to exit!");
-        scanf("%d", &l);
+        fgets(input, sizeof(input), stdin);
+sscanf(input, "%d", &l);
         if(l==1){
             break;
         }else{
@@ -643,8 +691,8 @@ void game(int *money){
     int choice;
 
     do{
-
-        printf("\n\n====================================\n");
+        system("clear");
+        printf("====================================\n");
 
         printf(" =========  Mystery box  ==========\n\n");
 
@@ -730,6 +778,18 @@ void game(int *money){
 
             printf("Current money: PHP %d.00\n", *money);
         }
-
+         int z;
+        do{
+       
+        printf("Tap 1 to exit!");
+        fgets(input, sizeof(input), stdin);
+sscanf(input, "%d", &z);
+        if(z==1){
+            break;
+        }else{
+            printf("Invalid input!\n");
+        }
+    }while (z!=1);
+        
     }while(choice!=2);
 }

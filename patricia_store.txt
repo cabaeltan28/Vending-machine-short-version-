@@ -1,5 +1,6 @@
-Oishi 10 10
+Oishi 10 12
 Clover 10 10
 Piatos 20 10
 Cracklings 10 15
 Marty's 10 15
+abcd 5 5
