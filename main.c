@@ -46,7 +46,7 @@ int main(){
 
     scan_files(products, sizes);
 
-    do{
+    do{//main menu nato guys
 
         printf("\n\n====================================\n");
         printf("====This is TPNC Vending Machine====\n");
@@ -67,9 +67,9 @@ int main(){
         char input[100];
         char extra;
 
-        fgets(input, sizeof(input), stdin);
+        fgets(input, sizeof(input), stdin);//stores nato ang answers sa string nga input
 
-        if(sscanf(input, "%d %c", &choice, &extra) != 1){
+        if(sscanf(input, "%d %c", &choice, &extra) != 1){//restrict the spaces and extra characters
             printf("Invalid input!\n");
             continue;
         }
@@ -114,7 +114,7 @@ int main(){
     return 0;
 }
 
-void check_files(){
+void check_files(){//initializing nato sa files nato
 
     FILE *fp;
 
@@ -122,7 +122,7 @@ void check_files(){
 
     if(fp == NULL){
 
-        fp = fopen(file_tan, "w");
+        fp = fopen(file_tan, "w");//tan files
 
         fprintf(fp, "Coke 35 10\n");
         fprintf(fp, "Water 20 15\n");
@@ -136,7 +136,7 @@ void check_files(){
         fclose(fp);
     }
 
-    fp = fopen(file_patricia, "r");
+    fp = fopen(file_patricia, "r");//patricias files
 
     if(fp == NULL){
 
@@ -154,7 +154,7 @@ void check_files(){
         fclose(fp);
     }
 
-    fp = fopen(file_nizzah, "r");
+    fp = fopen(file_nizzah, "r");//nizzahs files
 
     if(fp == NULL){
 
@@ -172,7 +172,7 @@ void check_files(){
         fclose(fp);
     }
 
-    fp = fopen(file_cabarloc, "r");
+    fp = fopen(file_cabarloc, "r");//cabarlocs files
 
     if(fp == NULL){
 
@@ -194,7 +194,7 @@ void check_files(){
 
     if(fp == NULL){
 
-        fp = fopen(file_inventory, "w");
+        fp = fopen(file_inventory, "w");//inventorys files
 
         fclose(fp);
 
@@ -206,7 +206,7 @@ void check_files(){
 
     if(fp == NULL){
 
-        fp = fopen(file_money, "w");
+        fp = fopen(file_money, "w");//moneys files
 
         fprintf(fp, "500");
 
@@ -217,7 +217,7 @@ void check_files(){
     }
 }
 
-void scan_files(Product *products[], int sizes[]){
+void scan_files(Product *products[], int sizes[]){//read all files
 
     FILE *fp;
 
@@ -250,7 +250,7 @@ void scan_files(Product *products[], int sizes[]){
     }
 }
 
-int mymoney(){
+int mymoney(){//our money
 
     FILE *fp;
 
@@ -265,7 +265,7 @@ int mymoney(){
     return money;
 }
 
-void view_ourstores(int i, Product *products[], int sizes[], int *timailhan){
+void view_ourstores(int i, Product *products[], int sizes[], int *timailhan){//view stores solution
 
     int choice;
 
@@ -322,7 +322,7 @@ void view_ourstores(int i, Product *products[], int sizes[], int *timailhan){
     }while(choice!=1 && choice!=2);
 }
 
-void view_products(Product *products[], int sizes[]){
+void view_products(Product *products[], int sizes[]){//view product menu
 
     int choice, timailhan=0;
 
@@ -368,7 +368,7 @@ void view_products(Product *products[], int sizes[]){
     }while(choice!=5);
 }
 
-void calculation(int i, int j, int quantity, Product *products[], int *money,int sizes[]){
+void calculation(int i, int j, int quantity, Product *products[], int *money,int sizes[]){//calculation sa buy and sell
 
     int m=*money;
 
@@ -438,7 +438,7 @@ void calculation(int i, int j, int quantity, Product *products[], int *money,int
     fclose(fp);
 }
 
-void buy_tan(int i, Product *products[], int sizes[], int *timailhan, int *money){
+void buy_tan(int i, Product *products[], int sizes[], int *timailhan, int *money){//buy and sells
 
     int choice=0;
 
@@ -481,7 +481,7 @@ void buy_tan(int i, Product *products[], int sizes[], int *timailhan, int *money
 
             fgets(input, sizeof(input), stdin);
 
-            if(sscanf(input, "%d %c", &quantity, &extra) != 1){
+            if(sscanf(input, "%d %c", &quantity, &extra) != 1){//restrict spaces and extra characters
                 printf("Invalid quantity!\n");
                 continue;
             }
@@ -512,7 +512,7 @@ void buy_tan(int i, Product *products[], int sizes[], int *timailhan, int *money
     }while(choice!=2);
 }
 
-void buy_products(Product *products[], int sizes[], int *money){
+void buy_products(Product *products[], int sizes[], int *money){//buy stores menu
 
     int i, timailhan=0;
 
@@ -569,7 +569,7 @@ void update_money(int money){
     fclose(fp);
 }
 
-void viewInventory(int money){
+void viewInventory(int money){//view inventory menu
 
     FILE *fp;
 
