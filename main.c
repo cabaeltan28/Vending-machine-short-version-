@@ -271,9 +271,9 @@ void view_ourstores(int i, Product *products[], int sizes[], int *timailhan){
 
     char *files[]={
         "Tan's",
-        "Patricia's",
-        "Nizzah's",
-        "Cabarloc's"
+        "Pat's",
+        "Niz's",
+        "Cab's"
     };
 
     do{
@@ -330,7 +330,7 @@ void view_products(Product *products[], int sizes[]){
 
         printf("====================================\n");
 
-        printf("--- You are now viewing products ---\n");
+        printf("--- You are now viewing products ---\n\n");
 
         printf("1. Tan's store\n");
         printf("2. Patricia's store\n");
@@ -633,7 +633,7 @@ void game(int *money){
 
         printf("====================================\n");
 
-        printf("========= LUCKY MINI GAME ==========\n");
+        printf(" =========  Mystery box  ==========\n\n");
 
         if(*money < 10){
 
@@ -641,7 +641,10 @@ void game(int *money){
 
             break;
         }
-
+        printf("Mechanics:\n");
+        printf("Sugal nimo kay only PHP 10");
+        printf("By PHP 10 you have the chance to select a box in 5 boxes\n");
+        printf("In the 5 boxes there is one contain PHP 100 and the rest is nothing\n\n");
         printf("1. Play\n");
         printf("2. Exit\n");
 
@@ -661,7 +664,7 @@ void game(int *money){
 
             int guess;
 
-            printf("Enter lucky number (1-5): ");
+            printf("Enter the box number you want to choose (1-5): ");
 
             fgets(input, sizeof(input), stdin);
 
@@ -690,10 +693,18 @@ void game(int *money){
                 *money += 100;
 
                 printf("You won PHP100!\n");
+                FILE *fp;
+                fp=fopen(file_inventory,"a");
+                fprintf(fp,"\nYou won PHP 100");
+                fclose(fp);
 
             }else{
 
-                printf("You lost!\n");
+                printf("You lost PHP 10!\n");
+                 FILE *fp;
+                fp=fopen(file_inventory,"a");
+                fprintf(fp,"\nYou lost PHP %d", *money);
+                fclose(fp);
             }
 
             update_money(*money);
