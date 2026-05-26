@@ -48,12 +48,12 @@ int main(){
 
     do{
 
-        printf("====================================\n");
-        printf("====This is PBCT Vending Machine====\n");
+        printf("\n\n====================================\n");
+        printf("====This is TPNC Vending Machine====\n");
         printf(" Barato na may tsansa pang manalo ka\n");
-        printf("          ===============\n\n");
+        printf("          --------------\n\n");
 
-        printf("You inserted : PHP%d\n\n", money);
+        printf("Your pocket money: PHP%d\n\n", money);
 
         printf("1. Buy Product\n");
         printf("2. View Product\n");
@@ -62,7 +62,7 @@ int main(){
         printf("5. Play Mysterious box game\n");
         printf("6. Exit\n");
 
-        printf("Enter your choice: ");
+        printf("\nEnter your choice: ");
 
         char input[100];
         char extra;
@@ -278,13 +278,13 @@ void view_ourstores(int i, Product *products[], int sizes[], int *timailhan){
 
     do{
 
-        printf("====================================\n");
+        printf("\n\n====================================\n");
 
         printf("---------- %s store -------------\n",files[i-1]);
 
         for(int k=0; k<sizes[i-1]; k++){
 
-            printf("%d. %s %d %d\n",
+            printf("%d. %3s - PHP %d - %d pcs\n",
                 k+1,
                 products[i-1][k].name,
                 products[i-1][k].price,
@@ -328,17 +328,17 @@ void view_products(Product *products[], int sizes[]){
 
     do{
 
-        printf("====================================\n");
+        printf("\n\n====================================\n");
 
         printf("--- You are now viewing products ---\n\n");
 
-        printf("1. Tan's store\n");
-        printf("2. Patricia's store\n");
-        printf("3. Nizzah's store\n");
-        printf("4. Cabarloc's store\n");
+        printf("1. Tan's store        (DRINKS)\n");
+        printf("2. Patricia's store   (JUNKFOODS)\n");
+        printf("3. Nizzah's store     (BISCUITS)\n");
+        printf("4. Cabarloc's store   (CANDIES)\n");
         printf("5. Go back to main menu\n");
 
-        printf("\nEnter your choice: ");
+        printf("\nEnter your choice(1-5): ");
 
         char input[100];
         char extra;
@@ -390,7 +390,7 @@ void calculation(int i, int j, int quantity, Product *products[], int *money,int
 
     if(*money<total_price){
 
-        printf("Not enough money!\n");
+        printf("Not enough money!You only have PHP %d.00 left!\n", *money);
 
         return;
     }
@@ -399,10 +399,9 @@ void calculation(int i, int j, int quantity, Product *products[], int *money,int
 
     *money-=total_price;
 
-        printf("You bought %s Price: %d Quantity: %d\n",
-            products[i-1][j-1].name,
-            products[i-1][j-1].price,
-            quantity);
+        printf("\nYou bought %d %s item\n",quantity,
+            products[i-1][j-1].name
+            );
 
     printf("Remaining money: PHP%d\n", *money);
 
@@ -452,19 +451,19 @@ void buy_tan(int i, Product *products[], int sizes[], int *timailhan, int *money
 
         int j, quantity;
 
-        printf("====================================\n");
+        printf("\n\n====================================\n");
         printf("===========   %s's store   ========\n\n", storename[k]);
 
         for(int x=0; x<sizes[k]; x++){
 
-            printf("%d. %s %d %d\n",
+            printf("%d. %3s - PHP %d - %d pcs\n",
                 x+1,
                 products[k][x].name,
                 products[k][x].price,
                 products[k][x].stock);
         }
 
-        printf("\nEnter what do you want to buy: ");
+        printf("\nEnter what do you want to buy(1-5): ");
 
         char input[100];
         char extra;
@@ -478,7 +477,7 @@ void buy_tan(int i, Product *products[], int sizes[], int *timailhan, int *money
 
         if(j>=1&&j<=sizes[k]){
 
-            printf("How many do you want to buy: ");
+            printf("How many %s do you want to buy: ", products[i-1][j-1].name);
 
             fgets(input, sizeof(input), stdin);
 
@@ -519,14 +518,14 @@ void buy_products(Product *products[], int sizes[], int *money){
 
     do{
 
-        printf("====================================\n");
+        printf("\n\n====================================\n");
 
         printf("--- You are now buying products ---\n\n");
 
-        printf("1. Tan's store\n");
-        printf("2. Patricia's store\n");
-        printf("3. Nizzah's store\n");
-        printf("4. Cabarloc's store\n");
+        printf("1. Tan's store       (DRINKS)\n");
+        printf("2. Patricia's store  (JUNKFOODS)\n");
+        printf("3. Nizzah's store    (BISCUITS)\n");
+        printf("4. Cabarloc's store  (CANDIES)\n");
         printf("5. Go back to main menu\n");
 
         printf("\nEnter your choice: ");
@@ -576,7 +575,7 @@ void viewInventory(int money){
 
     char line[100];
 
-    printf("\n===== INVENTORY =====\n");
+    printf("\n\n===== INVENTORY =====\n");
 
     fp = fopen(file_inventory, "r");
 
@@ -605,7 +604,7 @@ void add_money(int *money){
 
     int add;
 
-    printf("\n===== ADD MONEY =====\n");
+    printf("\n\n===== ADD MONEY =====\n");
 
     printf("Current money: PHP %d\n", *money);
 
@@ -626,6 +625,7 @@ void add_money(int *money){
     update_money(*money);
 
     printf("Money added successfully!\n");
+    printf("\nYour money now is %d.00\n",*money );
 }
 
 void game(int *money){
@@ -634,20 +634,20 @@ void game(int *money){
 
     do{
 
-        printf("====================================\n");
+        printf("\n\n====================================\n");
 
         printf(" =========  Mystery box  ==========\n\n");
 
         if(*money < 10){
 
-            printf("Not enough money!\n");
+            printf("Not enough money to play because you only have PHP%d.00 and it needs atleast PHP 10.00!\n", *money);
 
             break;
         }
         printf("Mechanics:\n");
-        printf("Sugal nimo kay only PHP 10");
+        printf("You need to pay PHP 10 to play\n");
         printf("By PHP 10 you have the chance to select a box in 5 boxes\n");
-        printf("In the 5 boxes there is one contain PHP 100 and the rest is nothing\n\n");
+        printf("In the 5 boxes there is one box contain PHP 100 and the rest is empty\n\n");
         printf("1. Play\n");
         printf("2. Exit\n");
 
