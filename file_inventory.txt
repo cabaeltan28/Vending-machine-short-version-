@@ -1,0 +1,8 @@
+Coke - PHP 35 (Quantity: 1) Total: 35
+Oishi - PHP 10 (Quantity: 1) Total: 10
+Oishi - PHP 10 (Quantity: 1) Total: 10
+Coke - PHP 35 (Quantity: 1)
+Oishi - PHP 10 (Quantity: 1)
+Coke - PHP 35 (Quantity: 1)
+Coke - PHP 35 (Quantity: 1)
+Coke - PHP 35 (Quantity: 1)
