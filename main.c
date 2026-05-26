@@ -381,7 +381,7 @@ void calculation(int i, int j, int quantity, Product *products[], int *money,int
 
     if(quantity>products[i-1][j-1].stock){
 
-        printf("Not enough stock!\n");
+        printf("Not enough stock there are only %d %s left!\n", products[i-1][j-1].stock, products[i-1][j-1].name);
 
         return;
     }
@@ -399,7 +399,10 @@ void calculation(int i, int j, int quantity, Product *products[], int *money,int
 
     *money-=total_price;
 
-    printf("\nPurchase successful!\n");
+        printf("You bought %s Price: %d Quantity: %d\n",
+            products[i-1][j-1].name,
+            products[i-1][j-1].price,
+            quantity);
 
     printf("Remaining money: PHP%d\n", *money);
 
@@ -442,7 +445,7 @@ void buy_tan(int i, Product *products[], int sizes[], int *timailhan, int *money
 
     int k=i-1;
     char *storename[]={
-        "Pat", "Tan", "Niz", "Cab"
+        "Tan", "Pat", "Niz", "Cab"
     };
 
     do{
