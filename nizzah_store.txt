@@ -1,5 +1,6 @@
-Fita 10 10
+Fita 10 9
 Lava 10 15
 Bravo 20 10
 Bingo 10 15
 Cloud9 10 15
+qasda 10 10

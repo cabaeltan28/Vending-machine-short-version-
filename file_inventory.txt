@@ -1,1 +1,17 @@
 
+Coke - PHP 25 (Quantity: 1)
+Coke - PHP 25 (Quantity: 1)
+Coke - PHP 25 (Quantity: 1)
+Water - PHP 20 (Quantity: 1)
+Water - PHP 20 (Quantity: 1)
+Water - PHP 20 (Quantity: 1)
+Fita - PHP 10 (Quantity: 1)
+Oishi - PHP 10 (Quantity: 1)
+Oishi - PHP 10 (Quantity: 1)
+Royal - PHP 25 (Quantity: 1)
+Oishi - PHP 10 (Quantity: 1)
+Royal - PHP 25 (Quantity: 1)
+Coke - PHP 25 (Quantity: 10)
+You lost PHP 99992.00
+You lost PHP 0.00
+You lost PHP 9990.00

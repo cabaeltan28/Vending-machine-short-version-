@@ -41,10 +41,12 @@ int main(){
         products[i]=malloc(sizeof(Product)*100);
     }
     check_files();
+    
     money=mymoney();
 
-
     do{//main menu nato guys
+        
+        scan_money(&money);
         system("clear");
         scan_files(products, sizes);
         printf("====================================\n");
@@ -291,7 +293,7 @@ void view_ourstores(int i, Product *products[], int sizes[], int *timailhan,int 
     do{
         system("clear");
         scan_files(products, sizes);
-        scan_money(money);
+
         
         printf("====================================\n");
 
@@ -338,13 +340,12 @@ void view_ourstores(int i, Product *products[], int sizes[], int *timailhan,int 
 }
 
 void view_products(Product *products[], int sizes[], int *money){//view product menu
-
     int choice, timailhan=0;
 
     do{
         system("clear");
         scan_files(products, sizes);
-        scan_money(money);
+        
         printf("====================================\n");
 
         printf("--- You are now viewing products ---\n\n");
@@ -419,14 +420,13 @@ void calculation(int i, int j, int quantity, Product *products[], int *money,int
     products[i-1][j-1].stock-=quantity;
 
     *money-=total_price;
-
+    update_money(*money);
         printf("\nYou bought %d %s item\n",quantity,
             products[i-1][j-1].name
             );
 
     printf("Remaining money: PHP%d\n", *money);
-
-    update_money(*money);
+    
 
     FILE *fp;
 
@@ -460,7 +460,7 @@ void calculation(int i, int j, int quantity, Product *products[], int *money,int
 }
 
 void buy_tan(int i, Product *products[], int sizes[], int *timailhan, int *money){//buy and sells
-    scan_money(money);
+    
     int choice=0;
 
     int k=i-1;
@@ -473,7 +473,7 @@ void buy_tan(int i, Product *products[], int sizes[], int *timailhan, int *money
 
         int timailha=0;
         scan_files(products, sizes);
-        scan_money(money);
+        
         int j, quantity;
         char input[100];
         char extra;
@@ -536,6 +536,7 @@ sscanf(input, "%d", &x);
             printf("2. Go back to previous menu\n");
             printf("3. Main menu\n");
             printf("Enter your choice: ");
+            
             fgets(input, sizeof(input), stdin);
 
             if(sscanf(input, "%d %c", &choice, &extra) != 1){
@@ -562,7 +563,7 @@ void buy_products(Product *products[], int sizes[], int *money){//buy stores men
 
     do{
         system("clear");
-        scan_money(money);
+        
         printf("====================================\n");
 
         printf("--- You are now buying products ---\n\n");
@@ -647,48 +648,65 @@ system("clear");
 }
 
 void add_money(int *money){
-
+     int timailhan=0;
+    do{
     int add;
-
+        char input[100];
+    char extra;
+    int l;
     printf("===== ADD MONEY =====\n");
 
     printf("Current money: PHP %d\n", *money);
-
+    do{
+        printf("Tap 1 to continue!\nTap 2 to exit\nTap 1 or 2: ");
+        fgets(input, sizeof(input), stdin);
+sscanf(input, "%d", &l);
+        if(l==1){
+            break;
+        }else if(l==2){
+            timailhan=1;
+            break;
+        }else{
+            printf("Invalid input! : \n");
+        }
+    }while(l!=1);
+    if(timailhan==1)break;
     printf("How much do you want to add: ");
-
-    char input[100];
-    char extra;
-
     fgets(input, sizeof(input), stdin);
 
     if(sscanf(input, "%d %c", &add, &extra) != 1){
         printf("Invalid input!\n");
         return;
     }
-
+    scan_money(money);
     *money += add;
 
-    update_money(*money);
-
     printf("Money added successfully!\n");
+    update_money(*money);
+    
     printf("\nYour money now is %d.00\n",*money );
-    int l;
     do{
-        system("clear");
         printf("Tap 1 to exit!");
         fgets(input, sizeof(input), stdin);
 sscanf(input, "%d", &l);
         if(l==1){
+            timailhan=1;
             break;
         }else{
             printf("Invalid input! : \n");
         }
     }while(l!=1);
+    if(timailhan==1)break;
+ } while (timailhan!=1);
+
 }
 
 void game(int *money){
-
-    int choice;
+    if(*money < 10){
+        printf("Not enough money to play because you only have PHP%d.00 and it needs atleast PHP 10.00!\n", *money);
+        return;
+    }
+    int choice, timailhan=0;
 
     do{
         system("clear");
@@ -712,7 +730,7 @@ void game(int *money){
         printf("2. Exit\n");
 
         printf("Enter your choice: ");
-
+        
         char input[100];
         char extra;
 
@@ -722,7 +740,7 @@ void game(int *money){
             printf("Invalid input!\n");
             continue;
         }
-
+        scan_money(money);
         if(choice==1){
 
             int guess;
@@ -735,7 +753,7 @@ void game(int *money){
                 printf("Invalid input!\n");
                 continue;
             }
-
+            scan_money(money);
             if(guess <1 || guess >5){
 
                 printf("Invalid number!\n");
@@ -762,6 +780,7 @@ void game(int *money){
                 
                 fprintf(fp,"You won PHP 100.00\n");
                 fclose(fp);
+               
 
             }else{
 
@@ -783,13 +802,15 @@ void game(int *money){
        
         printf("Tap 1 to exit!");
         fgets(input, sizeof(input), stdin);
-sscanf(input, "%d", &z);
+    sscanf(input, "%d", &z);
+    scan_money(money);
         if(z==1){
+            timailhan=1;
             break;
         }else{
             printf("Invalid input!\n");
         }
     }while (z!=1);
-        
+       if(timailhan==1)break;
     }while(choice!=2);
 }
