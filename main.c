@@ -53,7 +53,7 @@ int main(){
         printf(" Barato na may tsansa pang manalo ka\n");
         printf("          --------------\n\n");
 
-        printf("Your pocket money: PHP%d\n\n", money);
+        printf("Your pocket money: PHP%d.00\n\n", money);
 
         printf("1. Buy Product\n");
         printf("2. View Product\n");
@@ -626,6 +626,16 @@ void add_money(int *money){
 
     printf("Money added successfully!\n");
     printf("\nYour money now is %d.00\n",*money );
+    int l;
+    do{
+        printf("Tap 1 to exit!");
+        scanf("%d", &l);
+        if(l==1){
+            break;
+        }else{
+            printf("Invalid input! : \n");
+        }
+    }while(l!=1);
 }
 
 void game(int *money){
@@ -644,10 +654,12 @@ void game(int *money){
 
             break;
         }
-        printf("Mechanics:\n");
-        printf("You need to pay PHP 10 to play\n");
-        printf("By PHP 10 you have the chance to select a box in 5 boxes\n");
-        printf("In the 5 boxes there is one box contain PHP 100 and the rest is empty\n\n");
+        printf("Mechanics:\n\n");
+        printf("You need to pay PHP 10.00 to play\n");
+        printf("By only PHP 10.00 you have the chance to select a box in 5 boxes\n");
+        printf("In the 5 boxes there is one box contain PHP 100 and the rest is empty\n");
+        printf("We used randomizer for the jackpot box\n\n");
+        
         printf("1. Play\n");
         printf("2. Exit\n");
 
@@ -689,30 +701,34 @@ void game(int *money){
 
             *money -= 10;
 
-            printf("Lucky number: %d\n", random);
+            printf("Jackpot box: %d\n", random);
 
             if(guess == random){
 
                 *money += 100;
 
-                printf("You won PHP100!\n");
+                printf("You won PHP100.00!\n");
                 FILE *fp;
+                
                 fp=fopen(file_inventory,"a");
-                fprintf(fp,"\nYou won PHP 100");
+                
+                fprintf(fp,"You won PHP 100.00\n");
                 fclose(fp);
 
             }else{
 
                 printf("You lost PHP 10!\n");
                  FILE *fp;
+                 
                 fp=fopen(file_inventory,"a");
-                fprintf(fp,"\nYou lost PHP %d", *money);
+                
+                fprintf(fp,"You lost PHP %d.00\n", *money);
                 fclose(fp);
             }
 
             update_money(*money);
 
-            printf("Current money: PHP%d\n", *money);
+            printf("Current money: PHP %d.00\n", *money);
         }
 
     }while(choice!=2);
