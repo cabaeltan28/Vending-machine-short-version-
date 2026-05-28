@@ -1,7 +1,8 @@
-Coke 25 0
+Coke 25 8
 Water 20 7
 Royal 25 8
 Pepsi 30 15
 Sprite 30 15
-abcd 5 5
-edf 5 6
+ssss 5 5
+ad 5 6
+adf 1 4

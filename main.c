@@ -60,8 +60,7 @@ int main(){
         printf("2. View Product\n");
         printf("3. View personal inventory\n");
         printf("4. Add money\n");
-        printf("5. Play Mysterious box game\n");
-        printf("6. Exit\n");
+        printf("5. Exit\n");
 
         printf("\nEnter your choice: ");
 
@@ -94,13 +93,8 @@ int main(){
                 break;
 
             case 5:
-                game(&money);
-                break;
-
-            case 6:
                 printf("Exiting program...\n");
                 break;
-
             default:
                 printf("Invalid Entry!\n");
                 break;
@@ -497,7 +491,7 @@ void buy_tan(int i, Product *products[], int sizes[], int *timailhan, int *money
         
         printf("Tap 1 or 2: ");
         fgets(input, sizeof(input), stdin);
-sscanf(input, "%d", &x);
+    sscanf(input, "%d", &x);
         switch(x){
             case 1: timailha=1;break;
             case 2: timailha=2;break;
@@ -506,8 +500,10 @@ sscanf(input, "%d", &x);
         if(timailha==1 || timailha) break;
         }while (x!=1);
        
-        
+        scan_money(money);
+        update_money(*money);
         if(timailha==2)break;
+        printf("\nYou pocket money: PHP %d.00\n", *money);
         printf("\nEnter what do you want to buy(1-5): ");
 
         
@@ -529,7 +525,8 @@ sscanf(input, "%d", &x);
                 printf("Invalid quantity!\n");
                 continue;
             }
-
+            scan_money(money);
+            update_money(*money);
             calculation(i,j, quantity, products, money, sizes);
 
             printf("\n1. Buy again\n");
@@ -686,7 +683,7 @@ sscanf(input, "%d", &l);
     
     printf("\nYour money now is %d.00\n",*money );
     do{
-        printf("Tap 1 to exit!");
+        printf("Tap 1 to exit! : ");
         fgets(input, sizeof(input), stdin);
 sscanf(input, "%d", &l);
         if(l==1){
@@ -701,116 +698,3 @@ sscanf(input, "%d", &l);
 
 }
 
-void game(int *money){
-    if(*money < 10){
-        printf("Not enough money to play because you only have PHP%d.00 and it needs atleast PHP 10.00!\n", *money);
-        return;
-    }
-    int choice, timailhan=0;
-
-    do{
-        system("clear");
-        printf("====================================\n");
-
-        printf(" =========  Mystery box  ==========\n\n");
-
-        if(*money < 10){
-
-            printf("Not enough money to play because you only have PHP%d.00 and it needs atleast PHP 10.00!\n", *money);
-
-            break;
-        }
-        printf("Mechanics:\n\n");
-        printf("You need to pay PHP 10.00 to play\n");
-        printf("By only PHP 10.00 you have the chance to select a box in 5 boxes\n");
-        printf("In the 5 boxes there is one box contain PHP 100 and the rest is empty\n");
-        printf("We used randomizer for the jackpot box\n\n");
-        
-        printf("1. Play\n");
-        printf("2. Exit\n");
-
-        printf("Enter your choice: ");
-        
-        char input[100];
-        char extra;
-
-        fgets(input, sizeof(input), stdin);
-
-        if(sscanf(input, "%d %c", &choice, &extra) != 1){
-            printf("Invalid input!\n");
-            continue;
-        }
-        scan_money(money);
-        if(choice==1){
-
-            int guess;
-
-            printf("Enter the box number you want to choose (1-5): ");
-
-            fgets(input, sizeof(input), stdin);
-
-            if(sscanf(input, "%d %c", &guess, &extra) != 1){
-                printf("Invalid input!\n");
-                continue;
-            }
-            scan_money(money);
-            if(guess <1 || guess >5){
-
-                printf("Invalid number!\n");
-
-                continue;
-            }
-
-            srand(time(NULL));
-
-            int random = rand()%5+1;
-
-            *money -= 10;
-
-            printf("Jackpot box: %d\n", random);
-
-            if(guess == random){
-
-                *money += 100;
-
-                printf("You won PHP100.00!\n");
-                FILE *fp;
-                
-                fp=fopen(file_inventory,"a");
-                
-                fprintf(fp,"You won PHP 100.00\n");
-                fclose(fp);
-               
-
-            }else{
-
-                printf("You lost PHP 10!\n");
-                 FILE *fp;
-                 
-                fp=fopen(file_inventory,"a");
-                
-                fprintf(fp,"You lost PHP %d.00\n", *money);
-                fclose(fp);
-            }
-
-            update_money(*money);
-
-            printf("Current money: PHP %d.00\n", *money);
-        }
-         int z;
-        do{
-       
-        printf("Tap 1 to exit!");
-        fgets(input, sizeof(input), stdin);
-    sscanf(input, "%d", &z);
-    scan_money(money);
-        if(z==1){
-            timailhan=1;
-            break;
-        }else{
-            printf("Invalid input!\n");
-        }
-    }while (z!=1);
-       if(timailhan==1)break;
-    }while(choice!=2);
-}
